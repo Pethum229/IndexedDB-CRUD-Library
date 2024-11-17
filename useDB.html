@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Use IndexedDB</title>
+    <script src="db.js"></script>
+    <script>
+        const db = new DB("myTestDatabase",1,[
+            {
+                name: "products",
+                keyPath: 'code',
+                indexes: [
+                    {
+                        name: 'code',
+                        key: 'code',
+                        unique: true
+                    },
+                    {
+                        name: 'name',
+                        key:'name',
+                        unique: false
+                    }
+                ]
+            }
+        ])
+
+        function randomNumber(start,end){
+            return Math.floor(Math.random()*end)+start;
+        }
+
+        async function FillData(count){
+            for(let i=0; i< count; i++){
+                await db.addData("products",{
+                    code: `p${i}`,
+                    name: `Some product ${randomNumber(0,100)}`
+                })
+                console.log(`Product ${i} added.`);
+            }
+        }
+    </script>
+</head>
+<body>
+    
+</body>
+</html>
